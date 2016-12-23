@@ -5,9 +5,9 @@ then
   echo
   echo "This script takes the place of bash in a curlbash install script"
   echo "and attempts to sanitize it a bit. For example, replace"
-  echo "     curl {options} http://example.com/installer | bash"
+  echo "     curl http://example.com/installer | bash"
   echo "with"
-  echo "     curlbash http://example.com/installer {options}"
+  echo "     curl http://example.com/installer | curlbash"
   echo
   exit 1
 fi
