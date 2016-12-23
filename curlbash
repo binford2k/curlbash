@@ -1,0 +1,36 @@
+#! /bin/sh
+
+if [ $# -ne 0 ];
+then
+  echo
+  echo "This script takes the place of bash in a curlbash install script"
+  echo "and attempts to sanitize it a bit. For example, replace"
+  echo "     curl {options} http://example.com/installer | bash"
+  echo "with"
+  echo "     curlbash http://example.com/installer {options}"
+  echo
+  exit 1
+fi
+
+OUT=$(mktemp) || { echo "Failed to create temp file"; exit 1; }
+cat >> $OUT
+less $OUT
+
+# TODO: add some sanity checks here
+#
+# check for special characters
+# check for non-ascii
+# check for known evil strings
+
+# we have to read directly from the device since stdin isn't connected
+read -p "Would you like to execute this script? [Y/n] " -n 1 answer </dev/tty
+echo
+case ${answer:0:1} in
+    y|Y|"" )
+        chmod +x $OUT
+        exec $OUT
+    ;;
+    * )
+        echo "Skipping..."
+    ;;
+esac
